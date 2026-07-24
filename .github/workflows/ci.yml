@@ -9,10 +9,12 @@ permissions:
 
 jobs:
   security-preflight:
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - name: Install test utilities
+        run: brew install ripgrep
       - name: Run scanner, privacy, CLI, and release invariants
         run: Tests/run-tests.sh
       - name: Validate Codex plugin
