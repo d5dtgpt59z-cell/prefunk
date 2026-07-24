@@ -40,7 +40,14 @@ The regression suite tests grouping, redaction, coverage accounting, provider fo
 
 ## Codex plugin
 
-The plugin source lives in `Plugin/prefunk`. Its workflow invokes the one-shot CLI, treats report fields as untrusted data, independently verifies findings, and asks for approval before credential rotation, history rewriting, auth changes, deletion, deployment, commits, pushes, or external actions.
+The plugin source lives in `plugins/prefunk`. Its workflow invokes the one-shot CLI, treats report fields as untrusted data, independently verifies findings, and asks for approval before credential rotation, history rewriting, auth changes, deletion, deployment, commits, pushes, or external actions.
+
+After cloning the repository, add its marketplace and install Prefunk:
+
+```sh
+codex plugin marketplace add .
+codex plugin add prefunk@prefunk
+```
 
 The MVP intentionally does not expose an MCP server.
 

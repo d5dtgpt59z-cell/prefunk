@@ -16,14 +16,14 @@ if rg -q 'read-write' Packaging/Prefunk.entitlements; then
     echo "Release invariant failed: project access is read-write." >&2
     exit 1
 fi
-if [[ -e Plugin/prefunk/.mcp.json ]]; then
+if [[ -e plugins/prefunk/.mcp.json ]]; then
     echo "Release invariant failed: MVP must not expose MCP." >&2
     exit 1
 fi
-if rg -q 'command -v prefunk|exec prefunk ' Plugin/prefunk/scripts/prefunk-scan; then
+if rg -q 'command -v prefunk|exec prefunk ' plugins/prefunk/scripts/prefunk-scan; then
     echo "Release invariant failed: plugin launcher trusts PATH." >&2
     exit 1
 fi
-rg -q 'PREFUNK_ALLOW_DEV_OVERRIDE' Plugin/prefunk/scripts/prefunk-scan
+rg -q 'PREFUNK_ALLOW_DEV_OVERRIDE' plugins/prefunk/scripts/prefunk-scan
 
 echo "Release invariants passed: versions aligned, read-only, no MCP, trusted launcher order."

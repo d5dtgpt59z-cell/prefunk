@@ -3,14 +3,19 @@ import json
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-plugin = root / "Plugin" / "prefunk"
+plugin = root / "plugins" / "prefunk"
+marketplace = json.loads((root / ".agents" / "plugins" / "marketplace.json").read_text())
 manifest = json.loads((plugin / ".codex-plugin" / "plugin.json").read_text())
 
 assert manifest["name"] == plugin.name
-assert manifest["version"] == "0.1.0"
+assert manifest["version"] == "1.1.0"
 assert manifest["skills"] == "./skills/"
 assert "mcpServers" not in manifest
 assert not (plugin / ".mcp.json").exists()
+entry = marketplace["plugins"][0]
+assert entry["name"] == "prefunk"
+assert entry["source"]["path"] == "./plugins/prefunk"
+assert entry["policy"]["installation"] == "AVAILABLE"
 
 skill_path = plugin / "skills" / "prefunk-security-preflight" / "SKILL.md"
 text = skill_path.read_text()

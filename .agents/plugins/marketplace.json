@@ -1,0 +1,20 @@
+{
+  "name": "prefunk",
+  "interface": {
+    "displayName": "Prefunk"
+  },
+  "plugins": [
+    {
+      "name": "prefunk",
+      "source": {
+        "source": "local",
+        "path": "./plugins/prefunk"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
