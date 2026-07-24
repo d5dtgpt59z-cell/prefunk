@@ -9,7 +9,7 @@
   "interface": {
     "displayName": "Prefunk",
     "shortDescription": "Scan locally, verify potential security issues, and fix safely.",
-    "longDescription": "Prefunk runs a read-only local security preflight, gives Codex redacted structured leads, and requires independent verification before changes.",
+    "longDescription": "Prefunk runs a read-only local security preflight on macOS 14 or later, gives Codex redacted structured leads, and requires independent verification before changes.",
     "developerName": "Built by Magnus",
     "category": "Developer Tools",
     "capabilities": ["Local security preflight", "Redacted agent reports"],

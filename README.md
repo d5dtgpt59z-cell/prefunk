@@ -4,6 +4,8 @@ Prefunk is a local deterministic security preflight for coding agents. It finds 
 
 > **Preview:** Prefunk is an early preview focused on common security mistakes. Its findings should be verified by your coding agent before changes are made, and it does not replace a professional security review.
 
+> **Platform:** This preview requires macOS 14 or later.
+
 The scanner engine and Codex plugin are open source under the MIT License. The $1.99 Mac App Store edition is the signed, sandboxed convenience product with a native interface, guided exports, and automatic updates.
 
 ## Safety boundary
