@@ -1,0 +1,18 @@
+{
+  "name": "prefunk",
+  "version": "0.1.0",
+  "description": "Local deterministic security preflight for coding agents.",
+  "author": {
+    "name": "Built by Magnus"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Prefunk",
+    "shortDescription": "Scan locally, verify potential security issues, and fix safely.",
+    "longDescription": "Prefunk runs a read-only local security preflight, gives Codex redacted structured leads, and requires independent verification before changes.",
+    "developerName": "Built by Magnus",
+    "category": "Developer Tools",
+    "capabilities": ["Local security preflight", "Redacted agent reports"],
+    "defaultPrompt": "Run a Prefunk security preflight on this project, verify every potential finding, and propose the smallest safe fixes."
+  }
+}

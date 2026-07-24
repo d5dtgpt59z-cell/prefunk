@@ -1,0 +1,10 @@
+.DS_Store
+/.build/
+/work/
+/outputs/
+/design-qa.md
+/.swiftpm/
+*.xcuserstate
+*.xccheckout
+*.profraw
+*.sample.txt

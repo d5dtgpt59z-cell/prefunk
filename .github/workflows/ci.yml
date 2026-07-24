@@ -1,0 +1,21 @@
+name: Prefunk CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  security-preflight:
+    runs-on: macos-14
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run scanner, privacy, CLI, and release invariants
+        run: Tests/run-tests.sh
+      - name: Validate Codex plugin
+        run: python3 Tests/plugin-invariant.py
+      - name: Build release products
+        run: swift build -c release
