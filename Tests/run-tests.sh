@@ -16,3 +16,5 @@ xcrun swiftc \
 "$project_dir/Tests/cli-contract.sh"
 "$project_dir/Tests/release-invariant.sh"
 python3 "$project_dir/Tests/plugin-invariant.py"
+"$project_dir/Tests/ui-invariant.sh"
+"$project_dir/Tests/drop-provider-test.sh"

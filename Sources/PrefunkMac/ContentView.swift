@@ -1,5 +1,6 @@
 import SwiftUI
 import PrefunkCore
+import UniformTypeIdentifiers
 
 private enum Brand {
     static let background = Color(red: 0.045, green: 0.045, blue: 0.055)
@@ -279,15 +280,11 @@ private struct DropZone: View {
                 )
         }
         .clipShape(RoundedRectangle(cornerRadius: 18))
-        .dropDestination(for: URL.self) { urls, _ in
-            guard let url = urls.first, url.hasDirectoryPath else { return false }
-            model.scan(url)
-            return true
-        } isTargeted: { targeted in
-            withAnimation(.easeOut(duration: 0.15)) {
-                isTargeted = targeted
-            }
-        }
+        .onDrop(
+            of: [UTType.fileURL],
+            isTargeted: $isTargeted,
+            perform: model.handleDrop(providers:)
+        )
     }
 }
 
@@ -308,6 +305,11 @@ private struct ResultsView: View {
                         .foregroundStyle(Brand.muted)
                 }
                 Spacer()
+                Button(action: model.startNewScan) {
+                    Label("New scan", systemImage: "plus")
+                }
+                .buttonStyle(.bordered)
+                .help("Choose a different project")
                 Button(action: { model.scan(summary.rootURL) }) {
                     Label(model.isScanning ? "Scanning…" : "Scan again", systemImage: "arrow.clockwise")
                 }

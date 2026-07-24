@@ -1,6 +1,7 @@
 import AppKit
 import Foundation
 import PrefunkCore
+import UniformTypeIdentifiers
 
 @MainActor
 final class AppModel: ObservableObject {
@@ -24,12 +25,58 @@ final class AppModel: ObservableObject {
         scan(url)
     }
 
+    func startNewScan() {
+        summary = nil
+        selectedFinding = nil
+        errorMessage = nil
+        copiedFindingID = nil
+        copiedAgentReport = false
+    }
+
+    func handleDrop(providers: [NSItemProvider]) -> Bool {
+        guard let provider = providers.first(where: {
+            $0.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier)
+        }) else {
+            errorMessage = "Drop a project folder from Finder."
+            return false
+        }
+
+        provider.loadDataRepresentation(forTypeIdentifier: UTType.fileURL.identifier) { [weak self] data, error in
+            Task { @MainActor in
+                guard let self else { return }
+                guard error == nil, let data,
+                      let url = URL(dataRepresentation: data, relativeTo: nil) else {
+                    self.errorMessage = "Prefunk couldn’t read that dropped item. Try Choose a project instead."
+                    return
+                }
+
+                do {
+                    let values = try url.resourceValues(forKeys: [.isDirectoryKey])
+                    guard values.isDirectory == true else {
+                        self.errorMessage = "Drop a project folder, not an individual file."
+                        return
+                    }
+                    self.scan(url)
+                } catch {
+                    self.errorMessage = "Prefunk couldn’t open that folder. Try Choose a project instead."
+                }
+            }
+        }
+        return true
+    }
+
     func scan(_ url: URL) {
         isScanning = true
         errorMessage = nil
         selectedFinding = nil
 
         Task.detached(priority: .userInitiated) {
+            let accessed = url.startAccessingSecurityScopedResource()
+            defer {
+                if accessed {
+                    url.stopAccessingSecurityScopedResource()
+                }
+            }
             let result = ProjectScanner().scan(rootURL: url)
             await MainActor.run {
                 self.summary = result

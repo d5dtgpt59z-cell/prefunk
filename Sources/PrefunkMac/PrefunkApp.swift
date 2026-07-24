@@ -13,6 +13,11 @@ struct PrefunkApp: App {
         .windowStyle(.titleBar)
         .commands {
             CommandGroup(replacing: .newItem) {
+                Button("New Scan") {
+                    model.startNewScan()
+                }
+                .keyboardShortcut("n")
+                .disabled(model.summary == nil)
                 Button("Scan Project Folder…") {
                     model.chooseAndScanFolder()
                 }
