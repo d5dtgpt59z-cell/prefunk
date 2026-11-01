@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prefunk Security Preflight"
+  short_description: "Scan a project and safely verify security findings"
+  default_prompt: "Run a local Prefunk security preflight on this project, verify each potential finding, and propose the smallest safe fixes."

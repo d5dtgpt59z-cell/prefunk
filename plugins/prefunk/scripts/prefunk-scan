@@ -1,0 +1,26 @@
+#!/bin/zsh
+set -euo pipefail
+
+script_dir=${0:A:h}
+plugin_dir=${script_dir:h}
+project_dir=${plugin_dir:h:h}
+scan_root=${1:-$PWD}
+
+if [[ -x "/Applications/Prefunk.app/Contents/Resources/prefunk" ]]; then
+    exec "/Applications/Prefunk.app/Contents/Resources/prefunk" scan "$scan_root" --format json
+fi
+
+if [[ -x "$project_dir/.build/release/prefunk" ]]; then
+    exec "$project_dir/.build/release/prefunk" scan "$scan_root" --format json
+fi
+
+if [[ -f "$project_dir/Package.swift" ]]; then
+    exec swift run --package-path "$project_dir" -c release prefunk scan "$scan_root" --format json
+fi
+
+if [[ "${PREFUNK_ALLOW_DEV_OVERRIDE:-0}" == "1" && -n "${PREFUNK_BIN:-}" && -x "${PREFUNK_BIN}" ]]; then
+    exec "${PREFUNK_BIN}" scan "$scan_root" --format json
+fi
+
+echo "prefunk: scanner binary unavailable; install Prefunk or set PREFUNK_BIN" >&2
+exit 64
